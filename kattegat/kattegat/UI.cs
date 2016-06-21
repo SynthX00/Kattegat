@@ -21,6 +21,10 @@ namespace kattegat
 
         private int wood, stone, gold, score;
 
+        private List<string> menuDraw;
+        private Dictionary<string, string> menuOptions;
+
+
         //private bool defaultMenu = true;
 
         public UI(Board brd, SpriteBatch sprt, SpriteFont fnt)
@@ -36,6 +40,81 @@ namespace kattegat
             stone = 0;
             gold = 0;
             score = 0;
+
+            menuDraw = new List<string>();
+            menuOptions = new Dictionary<string, string>();
+
+            #region options
+            menuOptions.Add("Empty", "Build...");
+            menuOptions.Add("Empty", "Leave");
+
+            menuOptions.Add("Forest", "Harvest");
+            menuOptions.Add("Forest", "Build Lumber Camp");
+            menuOptions.Add("Forest", "Clear");
+            menuOptions.Add("Forest", "Leave");
+
+            menuOptions.Add("Mine", "Build Quarry");
+            menuOptions.Add("Mine", "Clear");
+            menuOptions.Add("Mine", "Leave");
+
+            menuOptions.Add("Gold Mine", "Build Mining Camp");
+            menuOptions.Add("Gold Mine", "Clear");
+            menuOptions.Add("Gold Mine", "Leave");
+
+            menuOptions.Add("Town Center", "Leave");
+
+            menuOptions.Add("Farm", "Demolish");
+            menuOptions.Add("Farm", "Leave");
+
+            menuOptions.Add("Lumber Camp", "Demolish");
+            menuOptions.Add("Lumber Camp", "Leave");
+
+            menuOptions.Add("Quarry", "Demolish");
+            menuOptions.Add("Quarry", "Leave");
+
+            menuOptions.Add("Mining Camp", "Demolish");
+            menuOptions.Add("Mining Camp", "Leave");
+
+            menuOptions.Add("Swamill", "Demolish");
+            menuOptions.Add("Swamill", "Leave");
+
+            menuOptions.Add("Blacksmith", "Demolish");
+            menuOptions.Add("Blacksmith", "Leave");
+
+            menuOptions.Add("Market", "Sell Wood");
+            menuOptions.Add("Market", "Sell Stone");
+            menuOptions.Add("Market", "Buy Wood");
+            menuOptions.Add("Market", "Buy Stone");
+            menuOptions.Add("Market", "Demolish");
+            menuOptions.Add("Market", "Leave");
+
+            menuOptions.Add("Palace", "Demolish");
+            menuOptions.Add("Palace", "Leave");
+
+            menuOptions.Add("Castle", "Demolish");
+            menuOptions.Add("Castle", "Leave");
+
+            menuOptions.Add("Temple", "Demolish");
+            menuOptions.Add("Temple", "Leave");
+
+            menuOptions.Add("University", "Demolish");
+            menuOptions.Add("University", "Leave");
+
+            menuOptions.Add("Wonder", "Demolish");
+            menuOptions.Add("Wonder", "Leave");
+
+            menuOptions.Add("Build", "Town Center");
+            menuOptions.Add("Build", "Farm");
+            menuOptions.Add("Build", "Sawmill");
+            menuOptions.Add("Build", "Blacksmith");
+            menuOptions.Add("Build", "Market");
+            menuOptions.Add("Build", "Palace");
+            menuOptions.Add("Build", "Castle");
+            menuOptions.Add("Build", "Temple");
+            menuOptions.Add("Build", "Statue");
+            menuOptions.Add("Build", "University");
+            menuOptions.Add("Build", "Wonder");
+            #endregion
         }
 
         public void LoadSprites(ContentManager content)
@@ -62,36 +141,12 @@ namespace kattegat
 
         }
 
-        public void MenuManager(bool selected = false)
-        {
-            if (selected)
-            {
-
-            }
-            else
-            {
-                DrawMenu(true);
-            }
-        }
-
         private void DrawEmptyMenu()
         {
             spriteBatch.DrawString(font, "Menu", new Vector2(682, 32), darkGreen);
             spriteBatch.DrawString(font, "Select a tile", new Vector2(650, 92), darkGreen);
             spriteBatch.DrawString(font, "to show other options", new Vector2(615, 124), darkGreen);
             spriteBatch.DrawString(font, "(SPACE)", new Vector2(680, 156), darkGreen);
-        }
-
-        private void DrawMenu(bool dflt)
-        {
-            if (dflt)
-            {
-                DrawEmptyMenu();
-            }
-            else
-            {
-
-            }
         }
         
         public void Update()
@@ -126,7 +181,7 @@ namespace kattegat
             DrawResourceScoreTiles();
 
             //DrawEmptyMenu();
-            DrawMenu();
+            //MenuManager();
 
             //exit notice
             spriteBatch.DrawString(font, "PRESS (ESC) TO EXIT", new Vector2(630, 532), darkGreen);
