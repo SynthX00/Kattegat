@@ -16,7 +16,7 @@ namespace kattegat
         private int time;
 
         private SpriteBatch spriteBatch;
-        private SpriteFont font;
+        //private SpriteFont font;
 
         private Texture2D sprite;
         private float spriteWidth, spriteHeight;

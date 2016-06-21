@@ -9,7 +9,7 @@
 "Mine", //has stone
 "Gold Mine", //has Gold
 "Town Center", //starting Building - 1000p
-    
+
 //--------BUILDINGS--------//
 "Quarry", //farm Stone - 250p
 "Lumber Camp", //farm Wood - 250p
