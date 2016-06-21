@@ -1,0 +1,32 @@
+﻿//--------BORDERS--------//
+"brdCorner",
+"brdHor",
+"brdVer",
+
+//--------STARTING--------//
+"Empty", //empty tyle
+"Forest",//has wood
+"Mine", //has stone
+"Gold Mine", //has Gold
+"Town Center", //starting Building - 1000p
+    
+//--------BUILDINGS--------//
+"Quarry", //farm Stone - 250p
+"Lumber Camp", //farm Wood - 250p
+"Mining Camp", //farm Gold - 250p
+"Market", //upgrades Gold rate - 1000p
+"Sawmill", //upgrades Wood rate - 1000p
+"Blacksmith", //upgrade Stone rate - 1000p
+"Palace", //big score bonus - 5000p
+"Castle", //protects town center - 2000p
+"Temple", //reduces Catastrophes - 2500p
+"Farm", //just for points - 100p
+"Statue", //just for points - 200p
+"University", //starts Wonder research - 1500p
+"Wonder", //end game building - 10000p
+
+//spawn rates
+gold mines > 7% < 12%
+mine > 15% 20%
+forest > 55% < 60%
+empty > 8% < 23%
