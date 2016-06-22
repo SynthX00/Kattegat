@@ -148,6 +148,24 @@ namespace kattegat
             spriteBatch.DrawString(font, "to show other options", new Vector2(615, 124), darkGreen);
             spriteBatch.DrawString(font, "(SPACE)", new Vector2(680, 156), darkGreen);
         }
+
+        private void DrawMenu(string tileType)
+        {
+            switch (tileType)
+            {
+                case "Empty":
+                    foreach (var key in menuOptions.Keys)
+                    {
+                        if (key == "Empty")
+                        {
+                            menuDraw.Add(menuOptions[key]);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
         
         public void Update()
         {
