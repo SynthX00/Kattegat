@@ -16,6 +16,7 @@ namespace kattegat
         private string tileType;
         public bool building = false;
         public bool scored = false;
+        public bool changeTile = false;
 
         private SpriteBatch spriteBatch;
 
@@ -81,6 +82,7 @@ namespace kattegat
                 case "Empty":
                     sprite = emptySprites[rnd.Next(emptySprites.Count)];
                     break;
+                //TODO: Add other tiles
                 default:
                     sprite = content.Load<Texture2D>(tileType);
                     break;
@@ -90,9 +92,24 @@ namespace kattegat
             spriteHeight = sprite.Height;
         }
 
-        public void Update()
+        public void Update(Random rnd)
         {
             //TODO: update function
+            if (changeTile)
+            {
+                switch (tileType)
+                {
+                    case "Empty":
+                        sprite = emptySprites[rnd.Next(emptySprites.Count)];
+                        changeTile = false;
+                        break;
+                    //TODO: Add other tiles
+                    default:
+                        //TODO:probably need to preload sprites in "LoadTileSprites"
+                        //sprite = content.Load<Texture2D>(tileType);
+                        break;
+                }
+            }
         }
 
         public void Draw()

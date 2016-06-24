@@ -20,12 +20,19 @@ namespace kattegat
         private SpriteFont font;
         //private Random _rnd;
 
+        public int wood, stone, gold, score;
+
         public Board(int x, int y, SpriteBatch spriteBatch, SpriteFont font)
         {
             columns = x;
             rows = y;
 
             tiles = new Tile[columns, rows];
+
+            wood = 225;
+            stone = 225;
+            gold = 225;
+            score = 0;
 
             this.spriteBatch = spriteBatch;
             this.font = font;
@@ -129,7 +136,7 @@ namespace kattegat
                             deployableTiles[rndType]--;
                             deploy = true;
                             //count = 0;
-                            tiles[x, y] = new Tile(x, y, (rndType == 0 ? "Forest" : (rndType == 1 ? "Mine" : (rndType == 2 ? "Forest" : (rndType == 3 ? "Gold" : "Empty")))), spriteBatch);
+                            tiles[x, y] = new Tile(x, y, (rndType == 0 ? "Forest" : (rndType == 1 ? "Mine" : (rndType == 2 ? "Forest" : (rndType == 3 ? "Gold Mine" : "Empty")))), spriteBatch);
                         }
                     } while (!deploy /*&& count < 1*/);
                     
@@ -157,11 +164,11 @@ namespace kattegat
             }
         }
 
-        public void Update()
+        public void Update(Random rnd)
         {
             foreach (var tile in tiles)
             {
-                tile.Update();
+                tile.Update(rnd);
             }
         }
 

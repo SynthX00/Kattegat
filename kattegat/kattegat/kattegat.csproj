@@ -114,7 +114,7 @@
     <Content Include="Content\Mine.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Gold.png">
+    <Content Include="Content\Gold Mine.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\brdCor.png">

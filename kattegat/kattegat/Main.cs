@@ -59,11 +59,11 @@ namespace kattegat
         
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed/* || Keyboard.GetState().IsKeyDown(Keys.Escape)*/)
                 Exit();
 
-            //TODO: gameBoard.Update();
-            cursor.Update(gameTime);
+            gameBoard.Update(rnd);
+            cursor.Update(gameTime, rnd);
             ui.Update();
 
             

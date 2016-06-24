@@ -65,35 +65,168 @@ namespace kattegat
             spriteHeight = cursor.Height;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Random rnd)
         {
             time += gameTime.ElapsedGameTime.Milliseconds;
             KeyboardState kb = Keyboard.GetState();
             switch (menuActive)
             {
                 case true:
+                    //menu arrow
                     if (menuIndex==0)
                     {
                         arrowY = 63;
                     }
-                    //menu arrow
                     if (time >= 200)
                     {
                         if (kb.IsKeyDown(Keys.Down))
                         {
-                            if (menuIndex+1 <= menuCount)
+                            if (menuIndex+1 <= menuCount-1)
                             {
+                                menuIndex++;
                                 arrowY += 20;
+                                time = 0;
                             }
 
                         }
                         else if (kb.IsKeyDown(Keys.Up))
                         {
-
+                            if (menuIndex - 1 >= 0)
+                            {
+                                menuIndex--;
+                                arrowY -= 20;
+                                time = 0;
+                            }
                         }
                         else if (kb.IsKeyDown(Keys.Space))
                         {
+                            time = 0;
+                            switch (selectedTile.TileType)
+                            {
+                                case "Empty":
+                                    switch (menuIndex)
+                                    {
+                                        case 0:
+                                            break;
+                                        case 1:
+                                            menuActive = false;
+                                            menuIndex = 0;
+                                            arrowY = -10;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                                case "Forest":
+                                    switch (menuIndex)
+                                    {
+                                        case 0:
+                                            menuActive = false;
+                                            menuIndex = 0;
+                                            arrowY = -10;
 
+                                            gameBoard.wood += 25;
+                                            gameBoard.score += 5;
+
+                                            gameBoard.tiles[selectedTile.X, selectedTile.Y].TileType = "Empty";
+                                            gameBoard.tiles[selectedTile.X, selectedTile.Y].changeTile = true;
+                                            break;
+                                        case 1:
+                                            break;
+                                        case 2:
+                                            menuActive = false;
+                                            menuIndex = 0;
+                                            arrowY = -10;
+
+                                            gameBoard.score += 1;
+
+                                            gameBoard.tiles[selectedTile.X, selectedTile.Y].TileType = "Empty";
+                                            gameBoard.tiles[selectedTile.X, selectedTile.Y].changeTile = true;
+
+                                            break;
+                                        case 3:
+                                            menuActive = false;
+                                            menuIndex = 0;
+                                            arrowY = -10;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                                case "Mine":
+                                    switch (menuIndex)
+                                    {
+                                        case 0:
+                                            break;
+                                        case 2:
+                                            menuActive = false;
+                                            menuIndex = 0;
+                                            arrowY = -10;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                                case "Gold Mine":
+                                    switch (menuIndex)
+                                    {
+                                        case 0:
+                                            break;
+                                        case 2:
+                                            menuActive = false;
+                                            menuIndex = 0;
+                                            arrowY = -10;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                                case "Town Center":
+                                    switch (menuIndex)
+                                    {
+                                        case 0:
+                                            menuActive = false;
+                                            menuIndex = 0;
+                                            arrowY = -10;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    break;
+                                case "Farm":
+                                    break;
+                                case "Lumber Camp":
+                                    break;
+                                case "Quarry":
+                                    break;
+                                case "Mining Camp":
+                                    break;
+                                case "Sawmill":
+                                    break;
+                                case "Blacksmith":
+                                    break;
+                                case "Market":
+                                    break;
+                                case "Palace":
+                                    break;
+                                case "Castle":
+                                    break;
+                                case "Temple":
+                                    break;
+                                case "University":
+                                    break;
+                                case "Wonder":
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        else if (kb.IsKeyDown(Keys.Escape))
+                        {
+                            menuActive = false;
+                            menuIndex = 0;
+                            arrowY = -10;
+                            time = 0;
                         }
                     }
                     break;
@@ -134,6 +267,7 @@ namespace kattegat
                         }
                         else if (kb.IsKeyDown(Keys.Space))
                         {
+                            time = 0;
                             menuActive = true;
                             selectedTile = gameBoard.tiles[mainX, mainY];
                         }

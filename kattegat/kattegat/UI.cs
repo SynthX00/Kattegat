@@ -11,7 +11,7 @@ namespace kattegat
 {
     class UI
     {
-        private Board board;
+        private Board gameBoard;
         private Cursor cursor;
         private SpriteBatch spriteBatch;
         private SpriteFont font;
@@ -20,10 +20,10 @@ namespace kattegat
 
         private Texture2D woodSprite, stoneSprite, goldSprite;
 
-        private int wood, stone, gold, score;
+        //private int wood, stone, gold, score;
 
         public List<string> menuDraw;
-        private List<string> empty, forest, mine, goldMine, townCenter, farm, lumberCamp, quarry, miningCamp, sawmill, blacksmith, market, palace, castle, temple, university, wonder, build;
+        private List<string> empty, forest, mine, goldMine, townCenter, farm, lumberCamp, quarry, miningCamp, sawmill, blacksmith, market, palace, castle, temple,statue, university, wonder, build;
         private Dictionary<string, List<string>> menuOptions;
         private bool defaultMenu = true;
 
@@ -31,7 +31,7 @@ namespace kattegat
 
         public UI(Board brd, Cursor cursor, SpriteBatch sprt, SpriteFont fnt)
         {
-            board = brd;
+            gameBoard = brd;
             this.cursor = cursor;
 
             spriteBatch = sprt;
@@ -40,11 +40,11 @@ namespace kattegat
             green = new Color(130, 141, 105);
             darkGreen = new Color(63, 68, 55);
 
-            wood = 0;
+            /*wood = 0;
             stone = 0;
             gold = 0;
             score = 0;
-
+            */
             menuDraw = new List<string>();
 
             empty = new List<string>();
@@ -62,6 +62,7 @@ namespace kattegat
             palace = new List<string>();
             castle = new List<string>();
             temple = new List<string>();
+            statue = new List<string>();
             university = new List<string>();
             wonder = new List<string>();
             build = new List<string>();
@@ -119,6 +120,9 @@ namespace kattegat
             temple.Add("Demolish");
             temple.Add("Leave");
 
+            statue.Add("Demolish");
+            statue.Add("Leave");
+
             university.Add("Demolish");
             university.Add("Leave");
 
@@ -154,6 +158,7 @@ namespace kattegat
             menuOptions.Add("Palace", palace);
             menuOptions.Add("Castle", castle);
             menuOptions.Add("Temple", temple);
+            menuOptions.Add("Statue", statue);
             menuOptions.Add("University", university);
             menuOptions.Add("Wonder", wonder);
             menuOptions.Add("Build", build);
@@ -177,10 +182,10 @@ namespace kattegat
             spriteBatch.DrawString(font, "Score", new Vector2(520, 520), green);
 
             //values
-            spriteBatch.DrawString(font, wood.ToString(), new Vector2(8, 48), green);
-            spriteBatch.DrawString(font, stone.ToString(), new Vector2(520, 48), green);
-            spriteBatch.DrawString(font, gold.ToString(), new Vector2(8, 560), green);
-            spriteBatch.DrawString(font, score.ToString(), new Vector2(520, 560), green);
+            spriteBatch.DrawString(font, gameBoard.wood.ToString(), new Vector2(8, 48), green);
+            spriteBatch.DrawString(font, gameBoard.stone.ToString(), new Vector2(520, 48), green);
+            spriteBatch.DrawString(font, gameBoard.gold.ToString(), new Vector2(8, 560), green);
+            spriteBatch.DrawString(font, gameBoard.score.ToString(), new Vector2(520, 560), green);
 
         }
 
@@ -264,6 +269,10 @@ namespace kattegat
                 }
                 cursor.menuCount = menuDraw.Count;
             }
+            else
+            {
+                defaultMenu = true;
+            }
         }
 
         private void DrawMenu()
@@ -289,17 +298,17 @@ namespace kattegat
         {
             #region Score
             //check building score
-            for (int x = 0; x < board.Columns; x++)
+            for (int x = 0; x < gameBoard.Columns; x++)
             {
-                for (int y = 0; y < board.Rows; y++)
+                for (int y = 0; y < gameBoard.Rows; y++)
                 {
-                    if (board.tiles[x,y].building && !board.tiles[x,y].scored)
+                    if (gameBoard.tiles[x,y].building && !gameBoard.tiles[x,y].scored)
                     {
-                        switch (board.tiles[x, y].TileType)
+                        switch (gameBoard.tiles[x, y].TileType)
                         {
                             case "Town Center":
-                                score += 1000;
-                                board.tiles[x, y].scored = true;
+                                gameBoard.score += 1000;
+                                gameBoard.tiles[x, y].scored = true;
                                 break;
                                 //TODO: add more buildings to score
                             default:
