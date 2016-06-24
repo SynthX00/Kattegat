@@ -58,14 +58,14 @@ namespace kattegat
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    forestSprites.Add(content.Load<Texture2D>("forest" + i.ToString() + j.ToString()));
+                    forestSprites.Add(content.Load<Texture2D>("Forest" + i.ToString() + j.ToString()));
                 }
             }
 
             emptySprites = new List<Texture2D>();
             for (int i = 0; i < 3; i++)
             {
-                emptySprites.Add(content.Load<Texture2D>("empty" + i.ToString()));
+                emptySprites.Add(content.Load<Texture2D>("Empty" + i.ToString()));
             }
             
 
@@ -75,10 +75,10 @@ namespace kattegat
 
             switch (tileType)
             {
-                case "forest":
+                case "Forest":
                     sprite = forestSprites[rnd.Next(forestSprites.Count)];
                     break;
-                case "empty":
+                case "Empty":
                     sprite = emptySprites[rnd.Next(emptySprites.Count)];
                     break;
                 default:

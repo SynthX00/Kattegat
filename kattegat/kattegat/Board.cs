@@ -129,7 +129,7 @@ namespace kattegat
                             deployableTiles[rndType]--;
                             deploy = true;
                             //count = 0;
-                            tiles[x, y] = new Tile(x, y, (rndType == 0 ? "forest" : (rndType == 1 ? "mine" : (rndType == 2 ? "forest" : (rndType == 3 ? "gold" : "empty")))), spriteBatch);
+                            tiles[x, y] = new Tile(x, y, (rndType == 0 ? "Forest" : (rndType == 1 ? "Mine" : (rndType == 2 ? "Forest" : (rndType == 3 ? "Gold" : "Empty")))), spriteBatch);
                         }
                     } while (!deploy /*&& count < 1*/);
                     
@@ -140,7 +140,7 @@ namespace kattegat
             //_rnd = new Random();
             int rndX = rnd.Next(1, columns - 2);
             int rndY = rnd.Next(1, rows - 2);
-            tiles[rndX, rndY] = new Tile(rndX, rndY, "towncenter", spriteBatch, true);
+            tiles[rndX, rndY] = new Tile(rndX, rndY, "Town Center", spriteBatch, true);
             //set random starting point - check
             //set random amount of forests - check
             //set random amount of mines - check

@@ -47,12 +47,14 @@ namespace kattegat
             gameBoard.CreateBoard(rnd);
             gameBoard.LoadSprites(Content,rnd);
 
-            //TODO: GameManager
-            ui = new UI(gameBoard, spriteBatch, font);
-            ui.LoadSprites(Content);
-
             cursor = new Cursor(1, 1, gameBoard, spriteBatch);
             cursor.LoadCursorSprite(Content);
+
+            //TODO: GameManager
+            ui = new UI(gameBoard, cursor, spriteBatch, font);
+            ui.LoadSprites(Content);
+
+            
         }
         
         protected override void Update(GameTime gameTime)
@@ -61,9 +63,10 @@ namespace kattegat
                 Exit();
 
             //TODO: gameBoard.Update();
+            cursor.Update(gameTime);
             ui.Update();
 
-            cursor.Update(gameTime);
+            
 
             base.Update(gameTime);
         }

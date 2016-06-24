@@ -12,17 +12,22 @@ namespace kattegat
 {
     class Cursor
     {
-        private int x, y;
+        private int mainX, mainY, arrowX, arrowY;
         private int time;
 
         private SpriteBatch spriteBatch;
         //private SpriteFont font;
 
-        private Texture2D sprite;
+        private Texture2D cursor, menuArrow;
         private float spriteWidth, spriteHeight;
 
         private Board gameBoard;
-        
+
+        public bool menuActive = false;
+        public Tile selectedTile;
+        public int menuCount = 0;
+        private int menuIndex=0;
+
         public Cursor(int x, int y, Board board, SpriteBatch spriteBatch)
         {
             /*
@@ -34,15 +39,18 @@ namespace kattegat
             {
                 for (int j = 1; j < board.Rows-1; j++)
                 {
-                    if (board.tiles[i,j].TileType == "towncenter")
+                    if (board.tiles[i,j].TileType == "Town Center")
                     {
-                        this.x = i;
-                        this.y = j;
+                        this.mainX = i;
+                        this.mainY = j;
                         break;
                     }
                 }
             }
-            
+
+            arrowX = 550;
+            arrowY = -10;
+
             gameBoard = board;
 
             this.spriteBatch = spriteBatch;
@@ -50,53 +58,89 @@ namespace kattegat
 
         public void LoadCursorSprite(ContentManager content)
         {
-            sprite = content.Load<Texture2D>("cursor");
+            cursor = content.Load<Texture2D>("cursor");
+            menuArrow = content.Load<Texture2D>("menuCursor");
 
-            spriteWidth = sprite.Width;
-            spriteHeight = sprite.Height;
+            spriteWidth = cursor.Width;
+            spriteHeight = cursor.Height;
         }
 
         public void Update(GameTime gameTime)
         {
             time += gameTime.ElapsedGameTime.Milliseconds;
             KeyboardState kb = Keyboard.GetState();
-
-            if (time>=200)
+            switch (menuActive)
             {
-                if (kb.IsKeyDown(Keys.Right))
-                {
-                    if (CheckCollisions("Right"))
+                case true:
+                    if (menuIndex==0)
                     {
-                        x++;
-                        time = 0;
+                        arrowY = 63;
                     }
-                }
-                else if (kb.IsKeyDown(Keys.Left))
-                {
-                    if (CheckCollisions("Left"))
+                    //menu arrow
+                    if (time >= 200)
                     {
-                        x--;
-                        time = 0;
+                        if (kb.IsKeyDown(Keys.Down))
+                        {
+                            if (menuIndex+1 <= menuCount)
+                            {
+                                arrowY += 20;
+                            }
+
+                        }
+                        else if (kb.IsKeyDown(Keys.Up))
+                        {
+
+                        }
+                        else if (kb.IsKeyDown(Keys.Space))
+                        {
+
+                        }
                     }
-                }
-                else if (kb.IsKeyDown(Keys.Up))
-                {
-                    if (CheckCollisions("Up"))
+                    break;
+                default:
+                    if (time >= 200)
                     {
-                        y--;
-                        time = 0;
+                        if (kb.IsKeyDown(Keys.Right))
+                        {
+                            if (CheckCollisions("Right"))
+                            {
+                                mainX++;
+                                time = 0;
+                            }
+                        }
+                        else if (kb.IsKeyDown(Keys.Left))
+                        {
+                            if (CheckCollisions("Left"))
+                            {
+                                mainX--;
+                                time = 0;
+                            }
+                        }
+                        else if (kb.IsKeyDown(Keys.Up))
+                        {
+                            if (CheckCollisions("Up"))
+                            {
+                                mainY--;
+                                time = 0;
+                            }
+                        }
+                        else if (kb.IsKeyDown(Keys.Down))
+                        {
+                            if (CheckCollisions("Down"))
+                            {
+                                mainY++;
+                                time = 0;
+                            }
+                        }
+                        else if (kb.IsKeyDown(Keys.Space))
+                        {
+                            menuActive = true;
+                            selectedTile = gameBoard.tiles[mainX, mainY];
+                        }
                     }
-                }
-                else if (kb.IsKeyDown(Keys.Down))
-                {
-                    if (CheckCollisions("Down"))
-                    {
-                        y++;
-                        time = 0;
-                    }
-                }
-                //TODO: else if (kb.IsKeyDown(Keys.Space))
+                    break;
             }
+            
         }
 
         private bool CheckCollisions(string dir)
@@ -106,22 +150,22 @@ namespace kattegat
             switch (dir)
             {
                 case "Right":
-                    if (gameBoard.tiles[x + 1, y].TileType.Substring(0, 3) == "brd")
+                    if (gameBoard.tiles[mainX + 1, mainY].TileType.Substring(0, 3) == "brd")
                         var = false;
                     else var = true;
                     break;
                 case "Left":
-                    if (gameBoard.tiles[x - 1, y].TileType.Substring(0, 3) == "brd")
+                    if (gameBoard.tiles[mainX - 1, mainY].TileType.Substring(0, 3) == "brd")
                         var = false;
                     else var = true;
                     break;
                 case "Up":
-                    if (gameBoard.tiles[x, y - 1].TileType.Substring(0, 3) == "brd")
+                    if (gameBoard.tiles[mainX, mainY - 1].TileType.Substring(0, 3) == "brd")
                         var = false;
                     else var = true;
                     break;
                 case "Down":
-                    if (gameBoard.tiles[x, y + 1].TileType.Substring(0, 3) == "brd")
+                    if (gameBoard.tiles[mainX, mainY + 1].TileType.Substring(0, 3) == "brd")
                         var = false;
                     else var = true;
                     break;
@@ -135,7 +179,8 @@ namespace kattegat
 
         public void Draw()
         {
-            spriteBatch.Draw(sprite, new Vector2(x * spriteWidth, y * spriteHeight), Color.White);
+            spriteBatch.Draw(cursor, new Vector2(mainX * spriteWidth, mainY * spriteHeight), Color.White);
+            spriteBatch.Draw(menuArrow, new Vector2(arrowX, arrowY), Color.White); //new Vector2(550, 63)
         }
     }
 }
