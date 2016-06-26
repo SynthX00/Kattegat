@@ -310,6 +310,10 @@ namespace kattegat
                                 gameBoard.score += 1000;
                                 gameBoard.tiles[x, y].scored = true;
                                 break;
+                            case "Lumber Camp":
+                                gameBoard.score += 250;
+                                gameBoard.tiles[x, y].scored = true;
+                                break;
                                 //TODO: add more buildings to score
                             default:
                                 break;

@@ -98,7 +98,7 @@ namespace kattegat
                                 time = 0;
                             }
                         }
-                        else if (kb.IsKeyDown(Keys.Space))
+                        else if (kb.IsKeyDown(Keys.Space)) //select menu option
                         {
                             time = 0;
                             switch (selectedTile.TileType)
@@ -107,11 +107,13 @@ namespace kattegat
                                     switch (menuIndex)
                                     {
                                         case 0:
+                                            //TODO: build menu
                                             break;
                                         case 1:
-                                            menuActive = false;
+                                            /*menuActive = false;
                                             menuIndex = 0;
-                                            arrowY = -10;
+                                            arrowY = -10;*/
+                                            LeaveMenu();
                                             break;
                                         default:
                                             break;
@@ -120,34 +122,58 @@ namespace kattegat
                                 case "Forest":
                                     switch (menuIndex)
                                     {
-                                        case 0:
-                                            menuActive = false;
+                                        case 0: //harvest
+                                            /*menuActive = false;
                                             menuIndex = 0;
-                                            arrowY = -10;
+                                            arrowY = -10;*/
 
                                             gameBoard.wood += 25;
                                             gameBoard.score += 5;
 
                                             gameBoard.tiles[selectedTile.X, selectedTile.Y].TileType = "Empty";
                                             gameBoard.tiles[selectedTile.X, selectedTile.Y].changeTile = true;
+
+                                            LeaveMenu();
                                             break;
-                                        case 1:
+                                        case 1: //build lumber camp
+                                            if (gameBoard.gold - 75 >= 0 && gameBoard.stone - 25 >= 0 && gameBoard.wood >= 50)
+                                            {
+                                                gameBoard.gold -= 75;
+                                                gameBoard.stone -= 25;
+                                                gameBoard.wood -= 50;
+
+                                                if (gameBoard.hasSawmill)
+                                                {
+                                                    gameBoard.wood += 200;
+                                                }
+                                                else
+                                                {
+                                                    gameBoard.wood += 125;
+                                                }
+
+                                                gameBoard.tiles[selectedTile.X, selectedTile.Y].TileType = "Lumber Camp";
+                                                gameBoard.tiles[selectedTile.X, selectedTile.Y].building = true;
+                                                gameBoard.tiles[selectedTile.X, selectedTile.Y].changeTile = true;
+                                            }
+                                            LeaveMenu();
                                             break;
-                                        case 2:
-                                            menuActive = false;
+                                        case 2: //clear
+                                            /*menuActive = false;
                                             menuIndex = 0;
-                                            arrowY = -10;
+                                            arrowY = -10;*/
 
                                             gameBoard.score += 1;
 
                                             gameBoard.tiles[selectedTile.X, selectedTile.Y].TileType = "Empty";
                                             gameBoard.tiles[selectedTile.X, selectedTile.Y].changeTile = true;
 
+                                            LeaveMenu();
                                             break;
-                                        case 3:
-                                            menuActive = false;
+                                        case 3: //leave
+                                            /*menuActive = false;
                                             menuIndex = 0;
-                                            arrowY = -10;
+                                            arrowY = -10;*/
+                                            LeaveMenu();
                                             break;
                                         default:
                                             break;
@@ -159,9 +185,10 @@ namespace kattegat
                                         case 0:
                                             break;
                                         case 2:
-                                            menuActive = false;
+                                            /*menuActive = false;
                                             menuIndex = 0;
-                                            arrowY = -10;
+                                            arrowY = -10;*/
+                                            LeaveMenu();
                                             break;
                                         default:
                                             break;
@@ -173,9 +200,10 @@ namespace kattegat
                                         case 0:
                                             break;
                                         case 2:
-                                            menuActive = false;
+                                            /*menuActive = false;
                                             menuIndex = 0;
-                                            arrowY = -10;
+                                            arrowY = -10;*/
+                                            LeaveMenu();
                                             break;
                                         default:
                                             break;
@@ -185,9 +213,10 @@ namespace kattegat
                                     switch (menuIndex)
                                     {
                                         case 0:
-                                            menuActive = false;
+                                            /*menuActive = false;
                                             menuIndex = 0;
-                                            arrowY = -10;
+                                            arrowY = -10;*/
+                                            LeaveMenu();
                                             break;
                                         default:
                                             break;
@@ -223,10 +252,11 @@ namespace kattegat
                         }
                         else if (kb.IsKeyDown(Keys.Escape))
                         {
-                            menuActive = false;
+                            /*menuActive = false;
                             menuIndex = 0;
                             arrowY = -10;
-                            time = 0;
+                            time = 0;*/
+                            LeaveMenu();
                         }
                     }
                     break;
@@ -311,6 +341,13 @@ namespace kattegat
             return var;
         }
 
+        private void LeaveMenu()
+        {
+            menuActive = false;
+            menuIndex = 0;
+            arrowY = -10;
+            time = 0;
+        }
         public void Draw()
         {
             spriteBatch.Draw(cursor, new Vector2(mainX * spriteWidth, mainY * spriteHeight), Color.White);

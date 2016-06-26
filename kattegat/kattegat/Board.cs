@@ -21,6 +21,7 @@ namespace kattegat
         //private Random _rnd;
 
         public int wood, stone, gold, score;
+        public bool hasSawmill = false, hasBlacksmith = false, hasMarket = false;
 
         public Board(int x, int y, SpriteBatch spriteBatch, SpriteFont font)
         {
