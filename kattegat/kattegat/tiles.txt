@@ -14,7 +14,7 @@
 "Quarry", //farm Stone - 250p
 "Lumber Camp", //farm Wood - 250p
 "Mining Camp", //farm Gold - 250p
-"Market", //upgrades Gold rate - 1000p
+"Market", //upgrades Gold rate - 1500p
 "Sawmill", //upgrades Wood rate - 1000p
 "Blacksmith", //upgrade Stone rate - 1000p
 "Palace", //big score bonus - 5000p

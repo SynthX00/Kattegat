@@ -196,7 +196,15 @@ namespace kattegat
                 switch (cursor.selectedTile.TileType)
                 {
                     case "Empty":
-                        menuDraw = empty;
+                        if (cursor.buildMenu)
+                        {
+                            menuDraw = build;
+                        }
+                        else
+                        {
+                            menuDraw = empty;
+                        }
+                        
                         defaultMenu = false;
                         break;
                     case "Forest":
