@@ -40,9 +40,9 @@ namespace kattegat
 
             tiles = new Tile[columns, rows];
 
-            wood = 2250;
-            stone = 2250;
-            gold = 2250;
+            wood = 225;
+            stone = 225;
+            gold = 225;
             score = 0;
 
             this.spriteBatch = spriteBatch;
@@ -53,7 +53,7 @@ namespace kattegat
 
             bgSong = sng;
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume = 0.05f;
+            MediaPlayer.Volume = 0.2f;
             MediaPlayer.Play(bgSong);
 
         }
@@ -203,7 +203,7 @@ namespace kattegat
             //day cycle
             time += gametime.ElapsedGameTime.Milliseconds;
 
-            if (time>=50)
+            if (time>=5000)
             {
                 day++;
                 time = 0;
