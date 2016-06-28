@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -27,6 +29,8 @@ namespace kattegat
         public Tile selectedTile;
         public int menuCount = 0;
         private int menuIndex=0;
+
+        private SoundEffect selectSFX, buildSFX, demolishSFX;
 
         public Cursor(int x, int y, Board board, SpriteBatch spriteBatch)
         {
@@ -63,6 +67,16 @@ namespace kattegat
 
             spriteWidth = cursor.Width;
             spriteHeight = cursor.Height;
+
+            //loadsong
+            /*select = content.Load<Song>("select");
+            build = content.Load<Song>("build");
+            demolish= content.Load<Song>("demolish");
+            */
+            //loadsfx
+            selectSFX = content.Load<SoundEffect>("select");
+            buildSFX = content.Load<SoundEffect>("build");
+            demolishSFX = content.Load<SoundEffect>("demolish");
         }
 
         public void Update(GameTime gameTime, Random rnd)
@@ -102,6 +116,7 @@ namespace kattegat
                         }
                         else if (kb.IsKeyDown(Keys.Space)) //select build option
                         {
+                            buildSFX.Play(0.5f, 0, 0);
                             switch (menuIndex)
                             {
                                 case 0:
@@ -159,6 +174,8 @@ namespace kattegat
                                     if (gameBoard.hasUniversity)
                                     {
                                         Build(500, 375, 250, "Wonder");
+                                        gameBoard.endGame = true;
+                                        gameBoard.finishWonder = true;
                                     }
                                     break;
                                 case 11:
@@ -208,6 +225,7 @@ namespace kattegat
                         }
                         else if (kb.IsKeyDown(Keys.Space)) //select menu option
                         {
+                            selectSFX.Play(0.5f, 0, 0);
                             time = 0;
                             switch (selectedTile.TileType)
                             {
@@ -252,6 +270,7 @@ namespace kattegat
                                         case 1: //build lumber camp
                                             if (gameBoard.gold - 75 >= 0 && gameBoard.stone - 25 >= 0 && gameBoard.wood - 50 >= 0)
                                             {
+                                                buildSFX.Play(0.5f, 0, 0);
                                                 gameBoard.gold -= 75;
                                                 gameBoard.stone -= 25;
                                                 gameBoard.wood -= 50;
@@ -300,6 +319,7 @@ namespace kattegat
                                         case 0:
                                             if (gameBoard.gold - 75 >= 0 && gameBoard.stone - 25 >= 0 && gameBoard.wood - 75>= 0)
                                             {
+                                                buildSFX.Play(0.5f, 0, 0);
                                                 gameBoard.gold -= 75;
                                                 gameBoard.stone -= 25;
                                                 gameBoard.wood -= 75;
@@ -344,6 +364,7 @@ namespace kattegat
                                         case 0:
                                             if (gameBoard.gold - 75 >= 0 && gameBoard.stone - 50 >= 0 && gameBoard.wood - 50>= 0)
                                             {
+                                                buildSFX.Play(0.5f, 0, 0);
                                                 gameBoard.gold -= 75;
                                                 gameBoard.stone -= 50;
                                                 gameBoard.wood -= 50;
@@ -386,9 +407,11 @@ namespace kattegat
                                     switch (menuIndex)
                                     {//TODO:END GAME no.1
                                         case 0:
-                                            /*menuActive = false;
-                                            menuIndex = 0;
-                                            arrowY = -10;*/
+                                            gameBoard.endGame = true;
+                                            gameBoard.towncenterEnd = true;
+                                            LeaveMenu();
+                                            break;
+                                        case 1:
                                             LeaveMenu();
                                             break;
                                         default:
@@ -611,6 +634,7 @@ namespace kattegat
                     }
                     else if (kb.IsKeyDown(Keys.Space))
                     {
+                        selectSFX.Play(0.5f,0,0);
                         time = 0;
                         menuActive = true;
                         selectedTile = gameBoard.tiles[mainX, mainY];
@@ -1118,6 +1142,8 @@ namespace kattegat
         }
         private void Demolish(int gold, int stone, int wood, int score)
         {
+            demolishSFX.Play(0.5f, 0, 0);
+
             if (gameBoard.tiles[selectedTile.X, selectedTile.Y].scored)
             {
                 gameBoard.score -= score;
@@ -1146,7 +1172,7 @@ namespace kattegat
         }
         public void Draw()
         {
-            spriteBatch.Draw(cursor, new Vector2(mainX * spriteWidth, mainY * spriteHeight), Color.White);
+            spriteBatch.Draw(cursor, new Vector2(mainX * spriteWidth, mainY * spriteHeight), gameBoard.endGame ? Color.Transparent : Color.White);
             spriteBatch.Draw(menuArrow, new Vector2(arrowX, arrowY), Color.White); //new Vector2(550, 63)
         }
     }

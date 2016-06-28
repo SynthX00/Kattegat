@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -11,11 +12,14 @@ namespace kattegat
         SpriteBatch spriteBatch;
         SpriteFont font;
 
+        private Song bgSong;
+
         private Board gameBoard;
         private UI ui;
         private Cursor cursor;
 
         private Random rnd;
+
 
         public Main()
         {
@@ -41,9 +45,11 @@ namespace kattegat
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            bgSong = Content.Load<Song>("background");
+
             font = Content.Load<SpriteFont>("_font");
 
-            gameBoard = new Board(9, 9, spriteBatch, font);
+            gameBoard = new Board(9, 9, spriteBatch, font, bgSong);
             gameBoard.CreateBoard(rnd);
             gameBoard.LoadSprites(Content,rnd);
 
@@ -51,7 +57,7 @@ namespace kattegat
             cursor.LoadCursorSprite(Content);
 
             //TODO: GameManager
-            ui = new UI(gameBoard, cursor, spriteBatch, font);
+            ui = new UI(gameBoard, cursor, spriteBatch, font, graphics);
             ui.LoadSprites(Content);
 
             
@@ -59,14 +65,21 @@ namespace kattegat
         
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed/* || Keyboard.GetState().IsKeyDown(Keys.Escape)*/)
-                Exit();
-
-            gameBoard.Update(rnd, gameTime);
-            cursor.Update(gameTime, rnd);
-            ui.Update();
 
             
+
+            if (!gameBoard.endGame)
+            {
+                gameBoard.Update(rnd, gameTime);
+                cursor.Update(gameTime, rnd);
+            }
+            ui.Update();
+
+            if (gameBoard.endGame)
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    Exit();
+            }
 
             base.Update(gameTime);
         }

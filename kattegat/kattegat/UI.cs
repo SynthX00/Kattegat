@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace kattegat
         private SpriteBatch spriteBatch;
         private SpriteFont font;
 
+        private GraphicsDeviceManager graphics;
+
         public Color green, darkGreen;
 
         private Texture2D woodSprite, stoneSprite, goldSprite;
@@ -28,15 +31,21 @@ namespace kattegat
         private Dictionary<string, List<string>> menuOptions;
         private bool defaultMenu = true;
 
+
+        private bool drawEndScreen = false;
         //private bool defaultMenu = true;
 
-        public UI(Board brd, Cursor cursor, SpriteBatch sprt, SpriteFont fnt)
+        public UI(Board brd, Cursor cursor, SpriteBatch sprt, SpriteFont fnt, GraphicsDeviceManager gfx)
         {
+            drawEndScreen = false;
+
             gameBoard = brd;
             this.cursor = cursor;
 
             spriteBatch = sprt;
             font = fnt;
+
+            graphics = gfx;
 
             green = new Color(130, 141, 105);
             darkGreen = new Color(63, 68, 55);
@@ -85,6 +94,7 @@ namespace kattegat
             goldMine.Add("Clear");
             goldMine.Add("Leave");
 
+            townCenter.Add("End Game");
             townCenter.Add("Leave");
 
             farm.Add("Demolish");
@@ -319,82 +329,89 @@ namespace kattegat
         
         public void Update()
         {
-            #region Score
-            //check building score
-            for (int x = 0; x < gameBoard.Columns; x++)
+            if (!gameBoard.endGame)
             {
-                for (int y = 0; y < gameBoard.Rows; y++)
+                #region Score
+                //check building score
+                for (int x = 0; x < gameBoard.Columns; x++)
                 {
-                    if (gameBoard.tiles[x,y].building && !gameBoard.tiles[x,y].scored)
+                    for (int y = 0; y < gameBoard.Rows; y++)
                     {
-                        switch (gameBoard.tiles[x, y].TileType)
+                        if (gameBoard.tiles[x, y].building && !gameBoard.tiles[x, y].scored)
                         {
-                            case "Town Center":
-                                gameBoard.score += 1000;
-                                gameBoard.tiles[x, y].scored = true;
-                                break;
-                            case "Farm":
-                                gameBoard.score += 100;
-                                gameBoard.tiles[x, y].scored = true;
-                                break;
-                            case "Lumber Camp":
-                                gameBoard.score += 250;
-                                gameBoard.tiles[x, y].scored = true;
-                                break;
-                            //TODO: add more buildings to score
-                            case "Quarry":
-                                gameBoard.score += 250;
-                                gameBoard.tiles[x, y].scored = true;
-                                break;
-                            case "Mining Camp":
-                                gameBoard.score += 250;
-                                gameBoard.tiles[x, y].scored = true;
-                                break;
-                            case "Sawmill":
-                                gameBoard.score += 100;
-                                gameBoard.tiles[x, y].scored = true;
-                                break;
-                            case "Blacksmith":
-                                gameBoard.score += 1000;
-                                gameBoard.tiles[x, y].scored = true;
-                                break;
-                            case "Market":
-                                gameBoard.score += 1500;
-                                gameBoard.tiles[x, y].scored = true;
-                                break;
-                            case "Palace":
-                                gameBoard.score += 5000;
-                                gameBoard.tiles[x, y].scored = true;
-                                break;
-                            case "Castle":
-                                gameBoard.score += 2000;
-                                gameBoard.tiles[x, y].scored = true;
-                                break;
-                            case "Temple":
-                                gameBoard.score += 2500;
-                                gameBoard.tiles[x, y].scored = true;
-                                break;
-                            case "Statue":
-                                gameBoard.score += 200;
-                                gameBoard.tiles[x, y].scored = true;
-                                break;
-                            case "University":
-                                gameBoard.score += 3000;
-                                gameBoard.tiles[x, y].scored = true;
-                                break;
-                            case "Wonder":
-                                gameBoard.score += 10000;
-                                gameBoard.tiles[x, y].scored = true;
-                                break;
-                            default:
-                                break;
+                            switch (gameBoard.tiles[x, y].TileType)
+                            {
+                                case "Town Center":
+                                    gameBoard.score += 1000;
+                                    gameBoard.tiles[x, y].scored = true;
+                                    break;
+                                case "Farm":
+                                    gameBoard.score += 100;
+                                    gameBoard.tiles[x, y].scored = true;
+                                    break;
+                                case "Lumber Camp":
+                                    gameBoard.score += 250;
+                                    gameBoard.tiles[x, y].scored = true;
+                                    break;
+                                //TODO: add more buildings to score
+                                case "Quarry":
+                                    gameBoard.score += 250;
+                                    gameBoard.tiles[x, y].scored = true;
+                                    break;
+                                case "Mining Camp":
+                                    gameBoard.score += 250;
+                                    gameBoard.tiles[x, y].scored = true;
+                                    break;
+                                case "Sawmill":
+                                    gameBoard.score += 100;
+                                    gameBoard.tiles[x, y].scored = true;
+                                    break;
+                                case "Blacksmith":
+                                    gameBoard.score += 1000;
+                                    gameBoard.tiles[x, y].scored = true;
+                                    break;
+                                case "Market":
+                                    gameBoard.score += 1500;
+                                    gameBoard.tiles[x, y].scored = true;
+                                    break;
+                                case "Palace":
+                                    gameBoard.score += 5000;
+                                    gameBoard.tiles[x, y].scored = true;
+                                    break;
+                                case "Castle":
+                                    gameBoard.score += 2000;
+                                    gameBoard.tiles[x, y].scored = true;
+                                    break;
+                                case "Temple":
+                                    gameBoard.score += 2500;
+                                    gameBoard.tiles[x, y].scored = true;
+                                    break;
+                                case "Statue":
+                                    gameBoard.score += 200;
+                                    gameBoard.tiles[x, y].scored = true;
+                                    break;
+                                case "University":
+                                    gameBoard.score += 3000;
+                                    gameBoard.tiles[x, y].scored = true;
+                                    break;
+                                case "Wonder":
+                                    gameBoard.score += 10000;
+                                    gameBoard.tiles[x, y].scored = true;
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                 }
-            }
-            #endregion
+                #endregion
 
-            MenuManager();
+                MenuManager();
+            }
+            else
+            {
+                drawEndScreen = true;
+            }
         }
 
         private void DrawDay()
@@ -404,15 +421,15 @@ namespace kattegat
 
             if (gameBoard.day >=100)
             {
-                spriteBatch.DrawString(font, /*gameBoard.day.ToString()*/ "100", new Vector2(293, 26), green);
+                spriteBatch.DrawString(font, gameBoard.day.ToString(), new Vector2(293, 26), green);
             }
             else if (gameBoard.day >=10)
             {
-                spriteBatch.DrawString(font, /*gameBoard.day.ToString()*/ "10", new Vector2(297, 26), green);
+                spriteBatch.DrawString(font, gameBoard.day.ToString(), new Vector2(297, 26), green);
             }
             else
             {
-                spriteBatch.DrawString(font, /*gameBoard.day.ToString()*/ "0", new Vector2(300, 26), green);
+                spriteBatch.DrawString(font, gameBoard.day.ToString(), new Vector2(300, 26), green);
             }
             //spriteBatch.DrawString(font, /*gameBoard.day.ToString()*/ "0", new Vector2(300,26), green);
             //spriteBatch.DrawString(font, /*gameBoard.day.ToString()*/ "10", new Vector2(297, 26), green);
@@ -432,6 +449,40 @@ namespace kattegat
             //DrawEmptyMenu();
             //MenuManager();
 
+            if (drawEndScreen)
+            {
+                Texture2D rect = new Texture2D(graphics.GraphicsDevice, 256, 128);
+
+                Color[] data = new Color[256 * 128];
+                for (int i = 0; i < data.Length; ++i) data[i] = green;
+                rect.SetData(data);
+
+                spriteBatch.Draw(rect, new Vector2(256, 192), Color.Gray);
+
+                spriteBatch.DrawString(font, "Ending -", new Vector2(286,222),green);
+                spriteBatch.DrawString(font, "Days -", new Vector2(286, 252), green);
+                spriteBatch.DrawString(font, "Score -", new Vector2(286, 282), green);
+
+                if (gameBoard.noTime)
+                {
+                    spriteBatch.DrawString(font, "Days Expired", new Vector2(376, 222), green);
+                }
+                else if (gameBoard.finishWonder)
+                {
+                    spriteBatch.DrawString(font, "Wonder Built", new Vector2(376, 222), green);
+                }
+                else if (gameBoard.towncenterEnd)
+                {
+                    spriteBatch.DrawString(font, "You left", new Vector2(396, 222), green);
+                }
+                else
+                {
+                    spriteBatch.DrawString(font, "default", new Vector2(396, 222), green);
+                }
+
+                spriteBatch.DrawString(font, gameBoard.day.ToString(), new Vector2(396, 252), green);
+                spriteBatch.DrawString(font, gameBoard.score.ToString(), new Vector2(396, 282), green);
+            }
             //exit notice
             spriteBatch.DrawString(font, "PRESS (ESC) TO EXIT", new Vector2(630, 532), darkGreen);
         }

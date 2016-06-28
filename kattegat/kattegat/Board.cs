@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -26,8 +27,14 @@ namespace kattegat
         public int day;
         private int time;
 
-        public Board(int x, int y, SpriteBatch spriteBatch, SpriteFont font)
+        private Song bgSong;
+
+        public bool endGame = false, noTime = false, finishWonder = false, towncenterEnd = false;
+
+        public Board(int x, int y, SpriteBatch spriteBatch, SpriteFont font, Song sng)
         {
+            endGame = false;
+
             columns = x;
             rows = y;
 
@@ -43,6 +50,12 @@ namespace kattegat
 
             day = 0;
             time = 0;
+
+            bgSong = sng;
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.05f;
+            MediaPlayer.Play(bgSong);
+
         }
 
         public void CreateBoard(Random rnd)
@@ -190,10 +203,16 @@ namespace kattegat
             //day cycle
             time += gametime.ElapsedGameTime.Milliseconds;
 
-            if (time>=5000)
+            if (time>=50)
             {
                 day++;
                 time = 0;
+            }
+
+            if (day>=365)
+            {
+                endGame = true;
+                noTime = true;
             }
         }
 
