@@ -21,7 +21,10 @@ namespace kattegat
         //private Random _rnd;
 
         public int wood, stone, gold, score;
-        public bool hasSawmill = false, hasBlacksmith = false, hasMarket = false;
+        public bool hasSawmill = false, hasBlacksmith = false, hasMarket = false, hasTownCenter = false, hasUniversity = false;
+
+        public int day;
+        private int time;
 
         public Board(int x, int y, SpriteBatch spriteBatch, SpriteFont font)
         {
@@ -30,13 +33,16 @@ namespace kattegat
 
             tiles = new Tile[columns, rows];
 
-            wood = 225;
-            stone = 225;
-            gold = 225;
+            wood = 2250;
+            stone = 2250;
+            gold = 2250;
             score = 0;
 
             this.spriteBatch = spriteBatch;
             this.font = font;
+
+            day = 0;
+            time = 0;
         }
 
         public void CreateBoard(Random rnd)
@@ -165,11 +171,29 @@ namespace kattegat
             }
         }
 
-        public void Update(Random rnd)
+        public void Update(Random rnd, GameTime gametime)
         {
             foreach (var tile in tiles)
             {
                 tile.Update(rnd);
+
+                if (tile.TileType == "Town Center")
+                {
+                    if (!hasTownCenter)
+                    {
+                        hasTownCenter = true;
+                    }
+                }
+                
+            }
+
+            //day cycle
+            time += gametime.ElapsedGameTime.Milliseconds;
+
+            if (time>=5000)
+            {
+                day++;
+                time = 0;
             }
         }
 

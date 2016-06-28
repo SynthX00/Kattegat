@@ -19,6 +19,7 @@ namespace kattegat
         public Color green, darkGreen;
 
         private Texture2D woodSprite, stoneSprite, goldSprite;
+        private Texture2D daylabel;
 
         //private int wood, stone, gold, score;
 
@@ -129,17 +130,18 @@ namespace kattegat
             wonder.Add("Demolish");
             wonder.Add("Leave");
 
-            build.Add("Town Center");
-            build.Add("Farm");
-            build.Add("Sawmill");
-            build.Add("Blacksmith");
-            build.Add("Market");
-            build.Add("Palace");
-            build.Add("Castle");
-            build.Add("Temple");
-            build.Add("Statue");
-            build.Add("University");
-            build.Add("Wonder");
+            build.Add("Town Center (x1) \n125g 125s 125w");
+            build.Add("Farm \n100g 50s 100w");
+            build.Add("Sawmill \n25g 50s 100w");
+            build.Add("Blacksmith \n50g 75s 25w");
+            build.Add("Market \n125g 75s 75w");
+            build.Add("Palace \n300g 225s 200w");
+            build.Add("Castle \n175g 350s 125w");
+            build.Add("Temple \n375g 200s 100w");
+            build.Add("Statue \n50g 150s 25w");
+            build.Add("University \n250g 125s 200w");
+            build.Add("Wonder (x1) (University) \n500g 375s 250w");
+            build.Add("Leave");
             #endregion
 
             menuOptions = new Dictionary<string, List<string>>();
@@ -170,6 +172,8 @@ namespace kattegat
             woodSprite = content.Load<Texture2D>("brdCorWood");
             stoneSprite = content.Load<Texture2D>("brdCorStone");
             goldSprite = content.Load<Texture2D>("brdCorGold");
+
+            daylabel = content.Load<Texture2D>("daylabel");
         }
 
         private void DrawResourceScoreTiles()
@@ -289,10 +293,21 @@ namespace kattegat
 
             if (!defaultMenu)
             {
-                foreach (var line in menuDraw)
+                if (cursor.buildMenu)
                 {
-                    spriteBatch.DrawString(font, line, new Vector2(620, 62 + i), darkGreen);
-                    i += 20;
+                    foreach (var line in menuDraw)
+                    {
+                        spriteBatch.DrawString(font, line, new Vector2(620, 62 + i), darkGreen);
+                        i += 30;
+                    }
+                }
+                else
+                {
+                    foreach (var line in menuDraw)
+                    {
+                        spriteBatch.DrawString(font, line, new Vector2(620, 62 + i), darkGreen);
+                        i += 20;
+                    }
                 }
             }else
             {
@@ -318,11 +333,59 @@ namespace kattegat
                                 gameBoard.score += 1000;
                                 gameBoard.tiles[x, y].scored = true;
                                 break;
+                            case "Farm":
+                                gameBoard.score += 100;
+                                gameBoard.tiles[x, y].scored = true;
+                                break;
                             case "Lumber Camp":
                                 gameBoard.score += 250;
                                 gameBoard.tiles[x, y].scored = true;
                                 break;
-                                //TODO: add more buildings to score
+                            //TODO: add more buildings to score
+                            case "Quarry":
+                                gameBoard.score += 250;
+                                gameBoard.tiles[x, y].scored = true;
+                                break;
+                            case "Mining Camp":
+                                gameBoard.score += 250;
+                                gameBoard.tiles[x, y].scored = true;
+                                break;
+                            case "Sawmill":
+                                gameBoard.score += 100;
+                                gameBoard.tiles[x, y].scored = true;
+                                break;
+                            case "Blacksmith":
+                                gameBoard.score += 1000;
+                                gameBoard.tiles[x, y].scored = true;
+                                break;
+                            case "Market":
+                                gameBoard.score += 1500;
+                                gameBoard.tiles[x, y].scored = true;
+                                break;
+                            case "Palace":
+                                gameBoard.score += 5000;
+                                gameBoard.tiles[x, y].scored = true;
+                                break;
+                            case "Castle":
+                                gameBoard.score += 2000;
+                                gameBoard.tiles[x, y].scored = true;
+                                break;
+                            case "Temple":
+                                gameBoard.score += 2500;
+                                gameBoard.tiles[x, y].scored = true;
+                                break;
+                            case "Statue":
+                                gameBoard.score += 200;
+                                gameBoard.tiles[x, y].scored = true;
+                                break;
+                            case "University":
+                                gameBoard.score += 3000;
+                                gameBoard.tiles[x, y].scored = true;
+                                break;
+                            case "Wonder":
+                                gameBoard.score += 10000;
+                                gameBoard.tiles[x, y].scored = true;
+                                break;
                             default:
                                 break;
                         }
@@ -334,6 +397,28 @@ namespace kattegat
             MenuManager();
         }
 
+        private void DrawDay()
+        {
+            spriteBatch.Draw(daylabel, new Vector2(256, 22), Color.White);
+            spriteBatch.DrawString(font, "Day", new Vector2(263, 26), green);
+
+            if (gameBoard.day >=100)
+            {
+                spriteBatch.DrawString(font, /*gameBoard.day.ToString()*/ "100", new Vector2(293, 26), green);
+            }
+            else if (gameBoard.day >=10)
+            {
+                spriteBatch.DrawString(font, /*gameBoard.day.ToString()*/ "10", new Vector2(297, 26), green);
+            }
+            else
+            {
+                spriteBatch.DrawString(font, /*gameBoard.day.ToString()*/ "0", new Vector2(300, 26), green);
+            }
+            //spriteBatch.DrawString(font, /*gameBoard.day.ToString()*/ "0", new Vector2(300,26), green);
+            //spriteBatch.DrawString(font, /*gameBoard.day.ToString()*/ "10", new Vector2(297, 26), green);
+            
+        }
+
         public void Draw()
         {
             DrawResourceScoreTiles();
@@ -342,6 +427,8 @@ namespace kattegat
             spriteBatch.DrawString(font, "Menu", new Vector2(682, 32), darkGreen);
 
             DrawMenu();
+
+            DrawDay();
             //DrawEmptyMenu();
             //MenuManager();
 

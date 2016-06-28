@@ -15,11 +15,11 @@
 "Lumber Camp", //farm Wood - 250p
 "Mining Camp", //farm Gold - 250p
 "Market", //upgrades Gold rate - 1500p
-"Sawmill", //upgrades Wood rate - 1000p
-"Blacksmith", //upgrade Stone rate - 1000p
+"Sawmill", //upgrades Wood rate - 1000p **
+"Blacksmith", //upgrade Stone rate - 1000p **
 "Palace", //big score bonus - 5000p
-"Castle", //protects town center - 2000p
-"Temple", //reduces Catastrophes - 2500p
+"Castle", //protects town center - 2000p *
+"Temple", //reduces Catastrophes - 2500p *
 "Farm", //just for points - 100p
 "Statue", //just for points - 200p
 "University", //starts Wonder research - 1500p

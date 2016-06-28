@@ -75,6 +75,9 @@
     <Content Include="Content\cursor.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\daylabel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Empty0.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

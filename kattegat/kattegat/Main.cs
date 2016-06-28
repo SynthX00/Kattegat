@@ -62,7 +62,7 @@ namespace kattegat
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed/* || Keyboard.GetState().IsKeyDown(Keys.Escape)*/)
                 Exit();
 
-            gameBoard.Update(rnd);
+            gameBoard.Update(rnd, gameTime);
             cursor.Update(gameTime, rnd);
             ui.Update();
 

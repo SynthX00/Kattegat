@@ -74,6 +74,7 @@ namespace kattegat
             {
                 if (buildMenu)
                 {
+                    #region buildmenu
                     if (menuIndex==0)
                     {
                         arrowY = 63;
@@ -85,7 +86,7 @@ namespace kattegat
                             if (menuIndex + 1 <= menuCount - 1)
                             {
                                 menuIndex++;
-                                arrowY += 20;
+                                arrowY += 30;
                                 time = 0;
                             }
 
@@ -95,7 +96,7 @@ namespace kattegat
                             if (menuIndex - 1 >= 0)
                             {
                                 menuIndex--;
-                                arrowY -= 20;
+                                arrowY -= 30;
                                 time = 0;
                             }
                         }
@@ -104,26 +105,65 @@ namespace kattegat
                             switch (menuIndex)
                             {
                                 case 0:
+                                    if (!gameBoard.hasTownCenter)
+                                    {/*
+                                        if (gameBoard.gold - 125 >= 0 &&
+                                            gameBoard.stone - 125 >= 0 &&
+                                            gameBoard.wood - 125 >= 0)
+                                        {
+                                            gameBoard.gold -= 125;
+                                            gameBoard.stone -= 125;
+                                            gameBoard.wood -= 125;
+
+                                            gameBoard.hasTownCenter = true;
+                                            gameBoard.tiles[selectedTile.X, selectedTile.Y].TileType = "Town Center";
+                                            gameBoard.tiles[selectedTile.X, selectedTile.Y].building = true;
+                                            gameBoard.tiles[selectedTile.X, selectedTile.Y].changeTile = true;
+                                        }*/
+                                        Build(125, 125, 125, "Town Center");
+                                        gameBoard.hasTownCenter = true;
+                                    }
                                     break;
                                 case 1:
+                                    Build(100, 50, 100, "Farm");
                                     break;
                                 case 2:
+                                    Build(25, 50, 100, "Sawmill");
+                                    gameBoard.hasSawmill = true;
                                     break;
                                 case 3:
+                                    Build(50, 75, 25, "Blacksmith");
+                                    gameBoard.hasBlacksmith = true;
                                     break;
                                 case 4:
+                                    Build(125, 75, 75, "Market");
+                                    gameBoard.hasMarket = true;
                                     break;
                                 case 5:
+                                    Build(300, 225, 200, "Palace");
                                     break;
                                 case 6:
+                                    Build(175, 350, 125, "Castle");
                                     break;
                                 case 7:
+                                    Build(375, 200, 100, "Temple");
                                     break;
                                 case 8:
+                                    Build(50, 150, 25, "Statue");
                                     break;
                                 case 9:
+                                    Build(250, 125, 200, "University");
+                                    gameBoard.hasUniversity = true;
                                     break;
                                 case 10:
+                                    if (gameBoard.hasUniversity)
+                                    {
+                                        Build(500, 375, 250, "Wonder");
+                                    }
+                                    break;
+                                case 11:
+                                    LeaveMenu();
+                                    buildMenu = false;
                                     break;
                                 default:
                                     break;
@@ -135,9 +175,11 @@ namespace kattegat
                             buildMenu = false;
                         }
                     }
+                    #endregion
                 }
                 else
                 {
+                    #region menu
                     //menu arrow
                     if (menuIndex == 0)
                     {
@@ -202,12 +244,13 @@ namespace kattegat
                                             gameBoard.score += 5;
 
                                             gameBoard.tiles[selectedTile.X, selectedTile.Y].TileType = "Empty";
+                                            gameBoard.tiles[selectedTile.X, selectedTile.Y].building = false;
                                             gameBoard.tiles[selectedTile.X, selectedTile.Y].changeTile = true;
 
                                             LeaveMenu();
                                             break;
                                         case 1: //build lumber camp
-                                            if (gameBoard.gold - 75 >= 0 && gameBoard.stone - 25 >= 0 && gameBoard.wood >= 50)
+                                            if (gameBoard.gold - 75 >= 0 && gameBoard.stone - 25 >= 0 && gameBoard.wood - 50 >= 0)
                                             {
                                                 gameBoard.gold -= 75;
                                                 gameBoard.stone -= 25;
@@ -236,6 +279,7 @@ namespace kattegat
                                             gameBoard.score += 1;
 
                                             gameBoard.tiles[selectedTile.X, selectedTile.Y].TileType = "Empty";
+                                            gameBoard.tiles[selectedTile.X, selectedTile.Y].building = false;
                                             gameBoard.tiles[selectedTile.X, selectedTile.Y].changeTile = true;
 
                                             LeaveMenu();
@@ -254,7 +298,7 @@ namespace kattegat
                                     switch (menuIndex)
                                     {
                                         case 0:
-                                            if (gameBoard.gold - 75 >= 0 && gameBoard.stone - 25 >= 0 && gameBoard.wood >= 75)
+                                            if (gameBoard.gold - 75 >= 0 && gameBoard.stone - 25 >= 0 && gameBoard.wood - 75>= 0)
                                             {
                                                 gameBoard.gold -= 75;
                                                 gameBoard.stone -= 25;
@@ -279,6 +323,7 @@ namespace kattegat
                                             gameBoard.score += 1;
 
                                             gameBoard.tiles[selectedTile.X, selectedTile.Y].TileType = "Empty";
+                                            gameBoard.tiles[selectedTile.X, selectedTile.Y].building = false;
                                             gameBoard.tiles[selectedTile.X, selectedTile.Y].changeTile = true;
 
                                             LeaveMenu();
@@ -297,7 +342,7 @@ namespace kattegat
                                     switch (menuIndex)
                                     {
                                         case 0:
-                                            if (gameBoard.gold - 75 >= 0 && gameBoard.stone - 50 >= 0 && gameBoard.wood >= 50)
+                                            if (gameBoard.gold - 75 >= 0 && gameBoard.stone - 50 >= 0 && gameBoard.wood - 50>= 0)
                                             {
                                                 gameBoard.gold -= 75;
                                                 gameBoard.stone -= 50;
@@ -322,12 +367,13 @@ namespace kattegat
                                             gameBoard.score += 1;
 
                                             gameBoard.tiles[selectedTile.X, selectedTile.Y].TileType = "Empty";
+                                            gameBoard.tiles[selectedTile.X, selectedTile.Y].building = false;
                                             gameBoard.tiles[selectedTile.X, selectedTile.Y].changeTile = true;
 
                                             LeaveMenu();
                                             break;
                                         case 2:
-                                            /*menuActive = false;
+                                            /*menuActive = fa6lse;
                                             menuIndex = 0;
                                             arrowY = -10;*/
                                             LeaveMenu();
@@ -354,17 +400,6 @@ namespace kattegat
                                     {
                                         case 0:
                                             Demolish(50, 25, 50, 100);
-                                            /*
-                                            if (gameBoard.tiles[selectedTile.X, selectedTile.Y].scored)
-                                            {
-                                                gameBoard.score -= 100;
-                                            }
-
-                                            gameBoard.score += 1;
-
-                                            gameBoard.tiles[selectedTile.X, selectedTile.Y].TileType = "Empty";
-                                            gameBoard.tiles[selectedTile.X, selectedTile.Y].changeTile = true;
-                                            */
                                             LeaveMenu();
                                             break;
                                         case 1:
@@ -418,6 +453,7 @@ namespace kattegat
                                     {
                                         case 0:
                                             Demolish(10, 25, 50, 1000);
+                                            gameBoard.hasSawmill = false;
                                             break;
                                         case 1:
                                             LeaveMenu();
@@ -431,6 +467,7 @@ namespace kattegat
                                     {
                                         case 0:
                                             Demolish(25, 35, 10, 1000);
+                                            gameBoard.hasBlacksmith = false;
                                             break;
                                         case 1:
                                             LeaveMenu();
@@ -444,6 +481,7 @@ namespace kattegat
                                     {
                                         case 0:
                                             Demolish(60, 35, 35, 1500);
+                                            gameBoard.hasMarket = false;
                                             break;
                                         case 1:
                                             LeaveMenu();
@@ -531,10 +569,12 @@ namespace kattegat
                             LeaveMenu();
                         }
                     }
+                    #endregion
                 }
             }
             else
             {
+                #region boardcursor
                 if (time >= 200)
                 {
                     if (kb.IsKeyDown(Keys.Right))
@@ -576,7 +616,10 @@ namespace kattegat
                         selectedTile = gameBoard.tiles[mainX, mainY];
                     }
                 }
+                #endregion
             }
+
+            #region comment
 
             //switch (menuActive)
             //{
@@ -1020,7 +1063,7 @@ namespace kattegat
             //        }
             //        break;
             //}
-
+            #endregion
         }
 
         private bool CheckCollisions(string dir)
@@ -1057,6 +1100,22 @@ namespace kattegat
             return var;
         }
 
+        private void Build(int gold, int stone, int wood, string building )
+        {
+            if (gameBoard.gold - gold >= 0 && gameBoard.stone - stone >= 0 && gameBoard.wood - wood >= 0)
+            {
+                gameBoard.gold -= gold;
+                gameBoard.stone -= stone;
+                gameBoard.wood -= wood;
+
+                gameBoard.tiles[selectedTile.X, selectedTile.Y].TileType = building;
+                gameBoard.tiles[selectedTile.X, selectedTile.Y].building = true;
+                gameBoard.tiles[selectedTile.X, selectedTile.Y].changeTile = true;
+
+                LeaveMenu();
+                buildMenu = false;
+            }
+        }
         private void Demolish(int gold, int stone, int wood, int score)
         {
             if (gameBoard.tiles[selectedTile.X, selectedTile.Y].scored)
@@ -1071,6 +1130,8 @@ namespace kattegat
             gameBoard.score += 5;
 
             gameBoard.tiles[selectedTile.X, selectedTile.Y].TileType = "Empty";
+            gameBoard.tiles[selectedTile.X, selectedTile.Y].building = false;
+            gameBoard.tiles[selectedTile.X, selectedTile.Y].scored = false;
             gameBoard.tiles[selectedTile.X, selectedTile.Y].changeTile = true;
 
             LeaveMenu();
