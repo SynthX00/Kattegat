@@ -11,7 +11,7 @@ Notice that some tile sprites are missing!
 
 # Development
 
-The entire game was developed by me using C# and the Monogame API.
+The entire game was developed by me using C# and the Monogame 3.5 framework.
 All the visual assets and sprites where drawn by me, unfortunately I wasn't able to make the sound effects, so those were made by others.
 
 # Controls
